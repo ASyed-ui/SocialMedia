@@ -2,3 +2,6 @@ node_modules
 
 .env
 
+nuploads
+
+n.DS_Store
