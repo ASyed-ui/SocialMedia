@@ -57,6 +57,17 @@ export const login = async (req, res) => {
   }
 };
 
+export const logout = async (req, res) => {
+  try {
+    // With JWT we can't destroy the token server-side unless using a blacklist.
+    // So we simply send success and let the frontend delete the token.
+    return res.json({ message: "Logged out successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: "Server error during logout." });
+  }
+};
+
+
 export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
