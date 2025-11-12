@@ -22,9 +22,13 @@ export const createPost = async (req, res) => {
 // Get all posts
 export const getPost = async (req, res) => {
   try {
-    const post = await Post.find().sort({ createdAt: -1 });
-    return res.json(post);
+    // Populate userId to get the user's name
+    const posts = await Post.find()
+      .sort({ createdAt: -1 })
+      .populate('userId', 'name'); // <-- populate only the name
+    return res.json(posts);
   } catch (err) {
+    console.error(err);
     return res.status(500).json({ message: "Server error fetching post." });
   }
 };
