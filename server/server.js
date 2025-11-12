@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
+import postRoute from "./routes/post.route.js";
 import { connectDB } from "./config/db.js";
 
 dotenv.config();
@@ -18,6 +19,7 @@ connectDB(MONGO_URI);
 
 // Routes
 app.use("/api", authRoutes);
+app.use("/api", postRoute);
 
 // Basic health route
 app.get("/", (req, res) => res.send("Socialmedia API running"));
@@ -28,4 +30,4 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Server error." });
 });
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`✅ Server listening on port ${PORT}`));
