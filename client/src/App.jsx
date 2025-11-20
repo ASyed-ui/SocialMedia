@@ -7,6 +7,7 @@ import CreatePost from './pages/CreatePost'
 import EditPost from './pages/EditPost'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
+import logo from './assets/ConnectSphereLogo.png'
 
 export default function App() {
   const { user, logout } = useAuth()
@@ -15,7 +16,10 @@ export default function App() {
     <div className="app-container">
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="logo">SocialMedia</Link>
+          <Link to="/" className="logo">
+            <img src={logo} alt="ConnectSphere logo" className="logo-image" />
+            <span className="logo-text">ConnectSphere</span>
+          </Link>
           <div className="nav-links">
             {user ? (
               <>

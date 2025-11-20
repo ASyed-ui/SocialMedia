@@ -108,6 +108,26 @@ body::after {
   letter-spacing: 2px;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 50px; /* slightly larger for readability */
+  width: auto;
+  display: block;
+  margin-right: 12px;
+  object-fit: contain;
+  transition: transform 180ms ease;
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    height: 2rem;
+  }
+}
+
 .nav-links {
   display: flex;
   gap: 12px;
