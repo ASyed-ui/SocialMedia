@@ -76,29 +76,89 @@ export default function PostCard({ post, onDelete }) {
   };
 
   return (
-    <div className="post-card">
-      <div className="post-card-header">
+    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 mb-4">
+      {/* Header */}
+      <div className="flex justify-between items-start mb-4">
         <div>
-          <div className="post-card-author">{post.userId?.name || 'Unknown'}</div>
-          <div className="post-card-date">{new Date(post.createdAt).toLocaleString()}</div>
+          <div className="font-semibold text-gray-900 text-lg">
+            {post.userId?.name || 'Unknown'}
+          </div>
+          <div className="text-sm text-gray-500 mt-1">
+            {new Date(post.createdAt).toLocaleString()}
+          </div>
         </div>
-        <div className="post-card-actions">
-          {post.isOwner && <Link to={`/edit/${post._id}`} className="edit-btn">Edit</Link>}
-          {post.isOwner && <button onClick={() => onDelete(post._id)} className="delete-btn">Delete</button>}
-        </div>
+        
+        {/* Actions */}
+        {post.isOwner && (
+          <div className="flex gap-2">
+            <Link 
+              to={`/edit/${post._id}`} 
+              className="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-200"
+            >
+              Edit
+            </Link>
+            <button 
+              onClick={() => onDelete(post._id)} 
+              className="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors duration-200"
+            >
+              Delete
+            </button>
+          </div>
+        )}
       </div>
-      <div className="post-card-content">{post.content}</div>
-      {post.image && <img src={post.image} alt="post" className="post-card-image" />}
 
-      <div className="post-card-footer">
-        <button onClick={handleLike} className={`reaction-btn like-btn ${liked ? 'active' : ''}`} disabled={processingLike || processingDislike}>
-          <img src={likeIcon} alt="like" className={`reaction-icon ${liked ? 'active' : ''}`} />
-          <span className="reaction-count">{likes.length}</span>
+      {/* Content */}
+      <div className="text-gray-800 mb-4 whitespace-pre-wrap break-words">
+        {post.content}
+      </div>
+
+      {/* Image */}
+      {post.image && (
+        <img 
+          src={post.image} 
+          alt="post" 
+          className="w-full rounded-lg mb-4 max-h-96 object-cover"
+        />
+      )}
+
+      {/* Footer - Like/Dislike */}
+      <div className="flex gap-4 pt-4 border-t border-gray-200">
+        <button 
+          onClick={handleLike} 
+          className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 ${
+            liked 
+              ? 'bg-blue-100 text-blue-600' 
+              : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+          } ${(processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={processingLike || processingDislike}
+        >
+          <img 
+            src={likeIcon} 
+            alt="like" 
+            className={`w-5 h-5 transition-transform duration-200 ${
+              liked ? 'scale-110' : ''
+            }`}
+          />
+          <span className="font-medium">{likes.length}</span>
         </button>
 
-        <button onClick={handleDislike} className={`reaction-btn dislike-btn ${disliked ? 'active' : ''}`} disabled={processingLike || processingDislike}>
-          <img src={dislikeIcon} alt="dislike" className={`reaction-icon ${disliked ? 'active' : ''}`} />
-          <span className="reaction-count">{dislikes.length}</span>
+        <button 
+          onClick={handleDislike} 
+          className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 ${
+            disliked 
+              ? 'bg-red-100 text-red-600' 
+              : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+          } ${(processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={processingLike || processingDislike}
+        >
+          <img 
+            src={dislikeIcon} 
+            alt="dislike" 
+            className={`w-5 h-5 transition-transform duration-200 ${
+              disliked ? 'scale-110' : ''
+            }`}
+          />
+          <span className="font-medium">{dislikes.length}</span>
         </button>
       </div>
     </div>
