@@ -15,3 +15,16 @@ if (token) {
 }
 
 export default api;
+
+// Helpers
+export const likePost = (postId) => {
+  const token = localStorage.getItem('token');
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  return api.post(`/post/${postId}/like`, null, { headers });
+};
+
+export const dislikePost = (postId) => {
+  const token = localStorage.getItem('token');
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  return api.post(`/post/${postId}/dislike`, null, { headers });
+};
