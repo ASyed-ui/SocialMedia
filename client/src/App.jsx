@@ -15,24 +15,40 @@ export default function App() {
   const { user, logout } = useAuth()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false)
   const userMenuRef = useRef(null)
+  const mobileUserMenuRef = useRef(null)
   const navigate = useNavigate()
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setUserMenuOpen(false)
       }
+      if (mobileUserMenuRef.current && !mobileUserMenuRef.current.contains(event.target)) {
+        setMobileUserMenuOpen(false)
+      }
+      // Close mobile menu when clicking outside
+      if (mobileMenuOpen && !event.target.closest('nav')) {
+        setMobileMenuOpen(false)
+      }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  }, [mobileMenuOpen])
 
   const handleLogout = () => {
     logout()
     navigate('/login')
     setUserMenuOpen(false)
+    setMobileUserMenuOpen(false)
+    setMobileMenuOpen(false)
+  }
+
+  const handleMobileLinkClick = () => {
+    setMobileMenuOpen(false)
+    setMobileUserMenuOpen(false)
   }
 
   return (
@@ -188,13 +204,18 @@ export default function App() {
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center space-x-3">
               {user && (
-                <div className="relative" ref={userMenuRef}>
+                <div className="relative" ref={mobileUserMenuRef}>
                   <button
-                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setMobileUserMenuOpen(!mobileUserMenuOpen)
+                      setMobileMenuOpen(false)
+                    }}
                     className="focus:outline-none"
+                    aria-label="User menu"
                   >
                     <div 
-                      className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
+                      className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden cursor-pointer transition-transform duration-200 hover:scale-105"
                       style={{ backgroundColor: '#f5f5f5', border: '2px solid #e0e0e0' }}
                     >
                       {user.profilePic ? (
@@ -212,10 +233,11 @@ export default function App() {
                   </button>
 
                   {/* Mobile Dropdown Menu */}
-                  {userMenuOpen && (
+                  {mobileUserMenuOpen && (
                     <div 
-                      className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg py-1"
+                      className="absolute right-0 mt-2 w-56 rounded-lg shadow-lg py-1 z-50"
                       style={{ backgroundColor: '#ffffff', border: '1px solid #e0e0e0', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <div className="px-4 py-3 border-b" style={{ borderColor: '#e0e0e0' }}>
                         <p className="text-sm font-semibold" style={{ color: '#333' }}>{user.name}</p>
@@ -223,8 +245,8 @@ export default function App() {
                       </div>
                       <Link
                         to="/"
-                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
-                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        onClick={handleMobileLinkClick}
+                        className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
                         style={{ color: '#333' }}
                         onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
                         onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -233,8 +255,8 @@ export default function App() {
                       </Link>
                       <Link
                         to="/create"
-                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
-                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        onClick={handleMobileLinkClick}
+                        className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
                         style={{ color: '#333' }}
                         onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
                         onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -243,8 +265,8 @@ export default function App() {
                       </Link>
                       <Link
                         to={`/profile/${user.id}`}
-                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
-                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        onClick={handleMobileLinkClick}
+                        className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
                         style={{ color: '#333' }}
                         onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
                         onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -253,8 +275,8 @@ export default function App() {
                       </Link>
                       <Link
                         to={`/profile/${user.id}/edit`}
-                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
-                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        onClick={handleMobileLinkClick}
+                        className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
                         style={{ color: '#333' }}
                         onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
                         onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -262,8 +284,11 @@ export default function App() {
                         Edit Profile
                       </Link>
                       <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm transition-colors duration-200"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          handleLogout()
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
                         style={{ color: '#d32f2f' }}
                         onMouseEnter={(e) => e.target.style.backgroundColor = '#ffebee'}
                         onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -301,9 +326,14 @@ export default function App() {
               {/* Hamburger Menu Button */}
               {user && (
                 <button
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="p-2 focus:outline-none"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setMobileMenuOpen(!mobileMenuOpen)
+                    setMobileUserMenuOpen(false)
+                  }}
+                  className="p-2 focus:outline-none transition-colors duration-200"
                   style={{ color: '#333' }}
+                  aria-label="Menu"
                 >
                   <svg 
                     className="w-6 h-6" 
@@ -327,11 +357,12 @@ export default function App() {
             <div 
               className="md:hidden border-t py-2"
               style={{ borderColor: '#e0e0e0' }}
+              onClick={(e) => e.stopPropagation()}
             >
               <Link
                 to="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 font-medium transition-colors duration-200"
+                onClick={handleMobileLinkClick}
+                className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
                 style={{ color: '#333' }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -340,8 +371,8 @@ export default function App() {
               </Link>
               <Link
                 to="/create"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 font-medium transition-colors duration-200"
+                onClick={handleMobileLinkClick}
+                className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
                 style={{ color: '#333' }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -350,8 +381,8 @@ export default function App() {
               </Link>
               <Link
                 to={`/profile/${user.id}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 font-medium transition-colors duration-200"
+                onClick={handleMobileLinkClick}
+                className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
                 style={{ color: '#333' }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
