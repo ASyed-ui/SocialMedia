@@ -14,11 +14,24 @@ export default function Profile() {
 
   useEffect(() => {
     const loadProfile = async () => {
+      setLoading(true)
+      setError('')
       try {
         const res = await api.get(`/users/${id}`)
-        setProfile(res.data)
+        if (res.data) {
+          setProfile(res.data)
+        } else {
+          setError('Invalid response from server')
+        }
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load profile')
+        if (err.response) {
+          setError(err.response.data?.message || 'Failed to load profile')
+        } else if (err.request) {
+          setError('Network error. Please check your connection.')
+        } else {
+          setError('An unexpected error occurred. Please try again.')
+        }
+        console.error('Error loading profile:', err)
       } finally {
         setLoading(false)
       }
