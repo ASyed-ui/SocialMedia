@@ -80,9 +80,15 @@ export default function PostCard({ post, onDelete }) {
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <div className="font-semibold text-lg" style={{ color: '#333' }}>
+          <Link
+            to={`/profile/${post.userId?._id || post.userId}`}
+            className="font-semibold text-lg transition-colors duration-200 hover:underline inline-block"
+            style={{ color: '#333' }}
+            onMouseEnter={(e) => e.target.style.color = '#666'}
+            onMouseLeave={(e) => e.target.style.color = '#333'}
+          >
             {post.userId?.name || 'Unknown'}
-          </div>
+          </Link>
           <div className="text-sm mt-1" style={{ color: '#666' }}>
             {new Date(post.createdAt).toLocaleString()}
           </div>
