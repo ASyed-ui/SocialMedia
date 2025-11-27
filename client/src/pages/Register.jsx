@@ -25,19 +25,19 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4" style={{ backgroundColor: '#fefbf6' }}>
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">Create Account</h2>
-          <p className="text-gray-600">Join our community today</p>
+          <h2 className="text-4xl font-bold mb-2" style={{ color: '#333' }}>Create Account</h2>
+          <p style={{ color: '#666' }}>Join our community today</p>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-xl shadow-xl p-8">
+        <div className="p-8" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 mb-6 text-sm" style={{ borderRadius: '8px' }}>
               {error}
             </div>
           )}
@@ -45,7 +45,7 @@ export default function Register() {
           <form onSubmit={submit} className="space-y-5">
             {/* Name Input */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="name" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
                 Full Name
               </label>
               <input
@@ -54,14 +54,15 @@ export default function Register() {
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="John Doe"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
+                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
                 required
               />
             </div>
 
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
                 Email Address
               </label>
               <input
@@ -70,14 +71,15 @@ export default function Register() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
+                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
                 required
               />
             </div>
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
                 Password
               </label>
               <input
@@ -86,17 +88,21 @@ export default function Register() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
+                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
                 required
                 minLength={6}
               />
-              <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters</p>
+              <p className="text-xs mt-1" style={{ color: '#666' }}>Must be at least 6 characters</p>
             </div>
 
             {/* Submit Button */}
             <button 
               type="submit"
-              className="w-full px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 mt-6"
+              className="w-full px-6 py-3 text-white font-semibold transition-all duration-200 mt-6"
+              style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
             >
               Create Account
             </button>
@@ -105,24 +111,27 @@ export default function Register() {
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+              <div className="w-full" style={{ borderTop: '1px solid #e0e0e0' }}></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Already have an account?</span>
+              <span className="px-2" style={{ backgroundColor: '#ffffff', color: '#666' }}>Already have an account?</span>
             </div>
           </div>
 
           {/* Login Link */}
           <Link 
             to="/login"
-            className="block w-full text-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-all duration-200"
+            className="block w-full text-center px-6 py-3 font-semibold transition-all duration-200"
+            style={{ backgroundColor: '#f5f5f5', color: '#333', borderRadius: '8px' }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#e8e8e8'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#f5f5f5'}
           >
             Sign In
           </Link>
         </div>
 
         {/* Footer Text */}
-        <p className="text-center text-gray-500 text-sm mt-6">
+        <p className="text-center text-sm mt-6" style={{ color: '#666' }}>
           By creating an account, you agree to our Terms and Privacy Policy
         </p>
       </div>

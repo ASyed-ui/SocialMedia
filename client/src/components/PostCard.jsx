@@ -76,14 +76,14 @@ export default function PostCard({ post, onDelete }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 mb-4">
+    <div className="p-6 mb-4 transition-shadow duration-200" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <div className="font-semibold text-gray-900 text-lg">
+          <div className="font-semibold text-lg" style={{ color: '#333' }}>
             {post.userId?.name || 'Unknown'}
           </div>
-          <div className="text-sm text-gray-500 mt-1">
+          <div className="text-sm mt-1" style={{ color: '#666' }}>
             {new Date(post.createdAt).toLocaleString()}
           </div>
         </div>
@@ -93,13 +93,19 @@ export default function PostCard({ post, onDelete }) {
           <div className="flex gap-2">
             <Link 
               to={`/edit/${post._id}`} 
-              className="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-200"
+              className="px-3 py-1 text-sm text-white transition-colors duration-200"
+              style={{ backgroundColor: '#666', borderRadius: '8px' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
             >
               Edit
             </Link>
             <button 
               onClick={() => onDelete(post._id)} 
-              className="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors duration-200"
+              className="px-3 py-1 text-sm text-white transition-colors duration-200"
+              style={{ backgroundColor: '#d32f2f', borderRadius: '8px' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#b71c1c'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#d32f2f'}
             >
               Delete
             </button>
@@ -108,7 +114,7 @@ export default function PostCard({ post, onDelete }) {
       </div>
 
       {/* Content */}
-      <div className="text-gray-800 mb-4 whitespace-pre-wrap break-words">
+      <div className="mb-4 whitespace-pre-wrap break-words" style={{ color: '#333' }}>
         {post.content}
       </div>
 
@@ -117,19 +123,33 @@ export default function PostCard({ post, onDelete }) {
         <img 
           src={post.image} 
           alt="post" 
-          className="w-full rounded-lg mb-4 max-h-96 object-cover"
+          className="w-full mb-4 max-h-96 object-cover"
+          style={{ borderRadius: '8px' }}
         />
       )}
 
       {/* Footer - Like/Dislike */}
-      <div className="flex gap-4 pt-4 border-t border-gray-200">
+      <div className="flex gap-4 pt-4" style={{ borderTop: '1px solid #e0e0e0' }}>
         <button 
           onClick={handleLike} 
-          className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 ${
-            liked 
-              ? 'bg-blue-100 text-blue-600' 
-              : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
-          } ${(processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`flex items-center gap-2 px-4 py-2 transition-all duration-200 ${
+            (processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          style={{ 
+            backgroundColor: liked ? '#e3f2fd' : '#f5f5f5', 
+            color: liked ? '#1976d2' : '#666',
+            borderRadius: '8px'
+          }}
+          onMouseEnter={(e) => {
+            if (!processingLike && !processingDislike && !liked) {
+              e.target.style.backgroundColor = '#e8e8e8';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!liked) {
+              e.target.style.backgroundColor = '#f5f5f5';
+            }
+          }}
           disabled={processingLike || processingDislike}
         >
           <img 
@@ -144,11 +164,24 @@ export default function PostCard({ post, onDelete }) {
 
         <button 
           onClick={handleDislike} 
-          className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 ${
-            disliked 
-              ? 'bg-red-100 text-red-600' 
-              : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
-          } ${(processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`flex items-center gap-2 px-4 py-2 transition-all duration-200 ${
+            (processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          style={{ 
+            backgroundColor: disliked ? '#ffebee' : '#f5f5f5', 
+            color: disliked ? '#d32f2f' : '#666',
+            borderRadius: '8px'
+          }}
+          onMouseEnter={(e) => {
+            if (!processingLike && !processingDislike && !disliked) {
+              e.target.style.backgroundColor = '#e8e8e8';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!disliked) {
+              e.target.style.backgroundColor = '#f5f5f5';
+            }
+          }}
           disabled={processingLike || processingDislike}
         >
           <img 
