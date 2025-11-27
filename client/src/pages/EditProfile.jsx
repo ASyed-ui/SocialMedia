@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../utils/api'
 import { useAuth } from '../context/AuthContext'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function EditProfile() {
   const { id } = useParams()
@@ -96,19 +97,19 @@ export default function EditProfile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#fefbf6' }}>
-        <div className="text-lg" style={{ color: '#666' }}>Loading...</div>
+      <div className="min-h-screen flex items-center justify-center py-12" style={{ backgroundColor: '#fefbf6' }}>
+        <LoadingSpinner size="lg" text="Loading profile..." />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen py-8" style={{ backgroundColor: '#fefbf6' }}>
-      <div className="max-w-2xl mx-auto px-4">
+    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#fefbf6' }}>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold" style={{ color: '#333' }}>Edit Profile</h2>
-          <p className="mt-2" style={{ color: '#666' }}>Update your profile information</p>
+          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#333' }}>Edit Profile</h2>
+          <p className="mt-2 text-sm sm:text-base" style={{ color: '#666' }}>Update your profile information</p>
         </div>
 
         {/* Error Message */}
@@ -132,8 +133,16 @@ export default function EditProfile() {
                 value={profilePic}
                 onChange={e => setProfilePic(e.target.value)}
                 placeholder="https://example.com/profile.jpg"
-                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
-                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
+                className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
+                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#666'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.boxShadow = 'none'
+                }}
               />
               {profilePic && (
                 <div className="mt-3">
@@ -161,8 +170,16 @@ export default function EditProfile() {
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
-                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
+                className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
+                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#666'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.boxShadow = 'none'
+                }}
                 required
               />
             </div>
@@ -177,8 +194,16 @@ export default function EditProfile() {
                 value={bio}
                 onChange={e => setBio(e.target.value)}
                 placeholder="Tell us about yourself..."
-                className="w-full px-4 py-3 focus:outline-none resize-none transition-all duration-200"
-                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
+                className="w-full px-4 py-3 resize-none transition-all duration-200 rounded-lg"
+                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#666'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.boxShadow = 'none'
+                }}
                 rows={4}
               />
             </div>
@@ -194,31 +219,46 @@ export default function EditProfile() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Leave blank to keep current password"
-                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
-                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
+                className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
+                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#666'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.boxShadow = 'none'
+                }}
                 minLength={6}
               />
               <p className="text-xs mt-1" style={{ color: '#666' }}>Must be at least 6 characters if provided</p>
             </div>
 
             {/* Buttons */}
-            <div className="flex gap-3 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button 
                 type="submit"
                 disabled={submitting}
-                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ backgroundColor: submitting ? '#999' : '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
+                style={{ backgroundColor: submitting ? '#999' : '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
                 onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#555')}
                 onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#666')}
               >
-                {submitting ? 'Saving...' : 'Save Changes'}
+                {submitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <LoadingSpinner size="sm" />
+                    Saving...
+                  </span>
+                ) : (
+                  'Save Changes'
+                )}
               </button>
               <button 
                 type="button"
                 onClick={() => navigate(`/profile/${id}`)}
                 disabled={submitting}
-                className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ backgroundColor: '#f5f5f5', color: '#333', borderRadius: '8px' }}
+                className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
+                style={{ backgroundColor: '#f5f5f5', color: '#333' }}
                 onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#e8e8e8')}
                 onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#f5f5f5')}
               >

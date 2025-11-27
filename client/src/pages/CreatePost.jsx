@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import api from '../utils/api'
 import { useNavigate } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function CreatePost() {
   const [content, setContent] = useState('')
@@ -36,12 +37,12 @@ export default function CreatePost() {
   }
 
   return (
-    <div className="min-h-screen py-8" style={{ backgroundColor: '#fefbf6' }}>
-      <div className="max-w-2xl mx-auto px-4">
+    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#fefbf6' }}>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold" style={{ color: '#333' }}>Create Post</h2>
-          <p className="mt-2" style={{ color: '#666' }}>Share your thoughts with the community</p>
+          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#333' }}>Create Post</h2>
+          <p className="mt-2 text-sm sm:text-base" style={{ color: '#666' }}>Share your thoughts with the community</p>
         </div>
 
         {/* Error Message */}
@@ -64,8 +65,16 @@ export default function CreatePost() {
                 value={content}
                 onChange={e => setContent(e.target.value)}
                 placeholder="Share your thoughts..."
-                className="w-full px-4 py-3 focus:outline-none resize-none transition-all duration-200"
-                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
+                className="w-full px-4 py-3 resize-none transition-all duration-200 rounded-lg"
+                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#666'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.boxShadow = 'none'
+                }}
                 rows={6}
                 required
               />
@@ -82,8 +91,16 @@ export default function CreatePost() {
                 value={image}
                 onChange={e => setImage(e.target.value)}
                 placeholder="https://example.com/image.jpg"
-                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
-                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
+                className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
+                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#666'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.boxShadow = 'none'
+                }}
               />
             </div>
 
@@ -102,23 +119,30 @@ export default function CreatePost() {
             )}
 
             {/* Buttons */}
-            <div className="flex gap-3 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button 
                 type="submit"
                 disabled={loading}
-                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ backgroundColor: loading ? '#999' : '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
+                style={{ backgroundColor: loading ? '#999' : '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
                 onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#555')}
                 onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#666')}
               >
-                {loading ? 'Posting...' : 'Post'}
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <LoadingSpinner size="sm" />
+                    Posting...
+                  </span>
+                ) : (
+                  'Post'
+                )}
               </button>
               <button 
                 type="button"
                 onClick={() => navigate('/')}
                 disabled={loading}
-                className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ backgroundColor: '#f5f5f5', color: '#333', borderRadius: '8px' }}
+                className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
+                style={{ backgroundColor: '#f5f5f5', color: '#333' }}
                 onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#e8e8e8')}
                 onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#f5f5f5')}
               >

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import api from '../utils/api'
 import { useAuth } from '../context/AuthContext'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function Profile() {
   const { id } = useParams()
@@ -43,8 +44,8 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#fefbf6' }}>
-        <div className="text-lg" style={{ color: '#666' }}>Loading...</div>
+      <div className="min-h-screen flex items-center justify-center py-12" style={{ backgroundColor: '#fefbf6' }}>
+        <LoadingSpinner size="lg" text="Loading profile..." />
       </div>
     )
   }
@@ -69,18 +70,18 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen py-8" style={{ backgroundColor: '#fefbf6' }}>
-      <div className="max-w-2xl mx-auto px-4">
+    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#fefbf6' }}>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold" style={{ color: '#333' }}>Profile</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#333' }}>Profile</h2>
         </div>
 
         {/* Profile Card */}
         <div className="p-6" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
           {/* Profile Picture and Name */}
           <div className="flex flex-col items-center mb-6">
-            <div className="w-32 h-32 rounded-full mb-4 overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#f5f5f5', border: '2px solid #e0e0e0' }}>
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mb-4 overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#f5f5f5', border: '2px solid #e0e0e0' }}>
               {profile?.profilePic ? (
                 <img 
                   src={profile.profilePic} 
@@ -93,10 +94,10 @@ export default function Profile() {
                 </div>
               )}
             </div>
-            <h3 className="text-2xl font-bold mb-2" style={{ color: '#333' }}>
+            <h3 className="text-xl sm:text-2xl font-bold mb-2 text-center" style={{ color: '#333' }}>
               {profile?.name || 'Unknown User'}
             </h3>
-            <p className="text-sm" style={{ color: '#666' }}>
+            <p className="text-xs sm:text-sm text-center" style={{ color: '#666' }}>
               {profile?.email || ''}
             </p>
           </div>
@@ -120,8 +121,8 @@ export default function Profile() {
             <div className="flex gap-3 pt-4" style={{ borderTop: '1px solid #e0e0e0' }}>
               <Link
                 to={`/profile/${id}/edit`}
-                className="flex-1 px-6 py-3 text-white font-semibold text-center transition-all duration-200"
-                style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                className="flex-1 px-6 py-3 text-white font-semibold text-center transition-all duration-200 rounded-lg"
+                style={{ backgroundColor: '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
               >
