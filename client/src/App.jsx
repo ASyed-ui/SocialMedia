@@ -1,5 +1,5 @@
-import React from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Feed from './pages/Feed'
@@ -13,6 +13,27 @@ import logo from './assets/ConnectSphereLogo.png'
 
 export default function App() {
   const { user, logout } = useAuth()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuRef = useRef(null)
+  const navigate = useNavigate()
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+    setUserMenuOpen(false)
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#fefbf6' }}>
@@ -27,13 +48,13 @@ export default function App() {
                 alt="ConnectSphere logo" 
                 className="h-10 w-10 object-contain"
               />
-              <span className="text-2xl font-bold" style={{ color: '#333' }}>
+              <span className="text-xl sm:text-2xl font-bold" style={{ color: '#333' }}>
                 ConnectSphere
               </span>
             </Link>
 
-            {/* Navigation Links */}
-            <div className="flex items-center space-x-4">
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center space-x-6">
               {user ? (
                 <>
                   <Link 
@@ -63,19 +84,81 @@ export default function App() {
                   >
                     Profile
                   </Link>
-                  <div className="pl-4" style={{ borderLeft: '1px solid #e0e0e0' }}>
-                    <span className="text-sm mr-3" style={{ color: '#666' }}>
-                      {user.name}
-                    </span>
-                    <button 
-                      onClick={logout} 
-                      className="px-4 py-2 text-white font-medium transition-colors duration-200"
-                      style={{ backgroundColor: '#d32f2f', borderRadius: '8px' }}
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#b71c1c'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = '#d32f2f'}
+                  
+                  {/* User Avatar Dropdown */}
+                  <div className="relative" ref={userMenuRef}>
+                    <button
+                      onClick={() => setUserMenuOpen(!userMenuOpen)}
+                      className="flex items-center space-x-2 focus:outline-none"
                     >
-                      Logout
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
+                        style={{ backgroundColor: '#f5f5f5', border: '2px solid #e0e0e0' }}
+                      >
+                        {user.profilePic ? (
+                          <img 
+                            src={user.profilePic} 
+                            alt={user.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-lg font-bold" style={{ color: '#666' }}>
+                            {user.name?.charAt(0)?.toUpperCase() || 'U'}
+                          </span>
+                        )}
+                      </div>
+                      <svg 
+                        className={`w-4 h-4 transition-transform duration-200 ${userMenuOpen ? 'transform rotate-180' : ''}`}
+                        style={{ color: '#666' }}
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
                     </button>
+
+                    {/* Dropdown Menu */}
+                    {userMenuOpen && (
+                      <div 
+                        className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg py-1"
+                        style={{ backgroundColor: '#ffffff', border: '1px solid #e0e0e0', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
+                      >
+                        <div className="px-4 py-3 border-b" style={{ borderColor: '#e0e0e0' }}>
+                          <p className="text-sm font-semibold" style={{ color: '#333' }}>{user.name}</p>
+                          <p className="text-xs" style={{ color: '#666' }}>{user.email}</p>
+                        </div>
+                        <Link
+                          to={`/profile/${user.id}`}
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm transition-colors duration-200"
+                          style={{ color: '#333' }}
+                          onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                        >
+                          View Profile
+                        </Link>
+                        <Link
+                          to={`/profile/${user.id}/edit`}
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm transition-colors duration-200"
+                          style={{ color: '#333' }}
+                          onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                        >
+                          Edit Profile
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="block w-full text-left px-4 py-2 text-sm transition-colors duration-200"
+                          style={{ color: '#d32f2f' }}
+                          onMouseEnter={(e) => e.target.style.backgroundColor = '#ffebee'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </>
               ) : (
@@ -101,7 +184,182 @@ export default function App() {
                 </>
               )}
             </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center space-x-3">
+              {user && (
+                <div className="relative" ref={userMenuRef}>
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="focus:outline-none"
+                  >
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
+                      style={{ backgroundColor: '#f5f5f5', border: '2px solid #e0e0e0' }}
+                    >
+                      {user.profilePic ? (
+                        <img 
+                          src={user.profilePic} 
+                          alt={user.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-lg font-bold" style={{ color: '#666' }}>
+                          {user.name?.charAt(0)?.toUpperCase() || 'U'}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Mobile Dropdown Menu */}
+                  {userMenuOpen && (
+                    <div 
+                      className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg py-1"
+                      style={{ backgroundColor: '#ffffff', border: '1px solid #e0e0e0', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
+                    >
+                      <div className="px-4 py-3 border-b" style={{ borderColor: '#e0e0e0' }}>
+                        <p className="text-sm font-semibold" style={{ color: '#333' }}>{user.name}</p>
+                        <p className="text-xs" style={{ color: '#666' }}>{user.email}</p>
+                      </div>
+                      <Link
+                        to="/"
+                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
+                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        style={{ color: '#333' }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        Feed
+                      </Link>
+                      <Link
+                        to="/create"
+                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
+                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        style={{ color: '#333' }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        Create
+                      </Link>
+                      <Link
+                        to={`/profile/${user.id}`}
+                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
+                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        style={{ color: '#333' }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        to={`/profile/${user.id}/edit`}
+                        onClick={() => { setUserMenuOpen(false); setMobileMenuOpen(false); }}
+                        className="block px-4 py-2 text-sm transition-colors duration-200"
+                        style={{ color: '#333' }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        Edit Profile
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-sm transition-colors duration-200"
+                        style={{ color: '#d32f2f' }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#ffebee'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {!user && (
+                <>
+                  <Link 
+                    to="/login" 
+                    className="px-3 py-2 text-sm font-medium transition-colors duration-200"
+                    style={{ color: '#333' }}
+                    onMouseEnter={(e) => e.target.style.color = '#666'}
+                    onMouseLeave={(e) => e.target.style.color = '#333'}
+                  >
+                    Login
+                  </Link>
+                  <Link 
+                    to="/register" 
+                    className="px-3 py-2 text-sm text-white font-medium transition-colors duration-200"
+                    style={{ backgroundColor: '#666', borderRadius: '8px' }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
+
+              {/* Hamburger Menu Button */}
+              {user && (
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="p-2 focus:outline-none"
+                  style={{ color: '#333' }}
+                >
+                  <svg 
+                    className="w-6 h-6" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    {mobileMenuOpen ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    )}
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && user && (
+            <div 
+              className="md:hidden border-t py-2"
+              style={{ borderColor: '#e0e0e0' }}
+            >
+              <Link
+                to="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-4 py-3 font-medium transition-colors duration-200"
+                style={{ color: '#333' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                Feed
+              </Link>
+              <Link
+                to="/create"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-4 py-3 font-medium transition-colors duration-200"
+                style={{ color: '#333' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                Create
+              </Link>
+              <Link
+                to={`/profile/${user.id}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-4 py-3 font-medium transition-colors duration-200"
+                style={{ color: '#333' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                Profile
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
 
