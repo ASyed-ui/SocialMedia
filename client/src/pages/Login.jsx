@@ -24,19 +24,19 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4" style={{ backgroundColor: '#fefbf6' }}>
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-          <p className="text-gray-600">Sign in to your account</p>
+          <h2 className="text-4xl font-bold mb-2" style={{ color: '#333' }}>Welcome Back</h2>
+          <p style={{ color: '#666' }}>Sign in to your account</p>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-xl shadow-xl p-8">
+        <div className="p-8" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 mb-6 text-sm" style={{ borderRadius: '8px' }}>
               {error}
             </div>
           )}
@@ -44,7 +44,7 @@ export default function Login() {
           <form onSubmit={submit} className="space-y-5">
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
                 Email Address
               </label>
               <input
@@ -53,14 +53,15 @@ export default function Login() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
+                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
                 required
               />
             </div>
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
                 Password
               </label>
               <input
@@ -69,7 +70,8 @@ export default function Login() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-3 focus:outline-none transition-all duration-200"
+                style={{ border: '1px solid #e0e0e0', borderRadius: '8px', color: '#333' }}
                 required
               />
             </div>
@@ -77,7 +79,10 @@ export default function Login() {
             {/* Submit Button */}
             <button 
               type="submit"
-              className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 mt-6"
+              className="w-full px-6 py-3 text-white font-semibold transition-all duration-200 mt-6"
+              style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
             >
               Sign In
             </button>
@@ -86,24 +91,27 @@ export default function Login() {
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+              <div className="w-full" style={{ borderTop: '1px solid #e0e0e0' }}></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Don't have an account?</span>
+              <span className="px-2" style={{ backgroundColor: '#ffffff', color: '#666' }}>Don't have an account?</span>
             </div>
           </div>
 
           {/* Register Link */}
           <Link 
             to="/register"
-            className="block w-full text-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-all duration-200"
+            className="block w-full text-center px-6 py-3 font-semibold transition-all duration-200"
+            style={{ backgroundColor: '#f5f5f5', color: '#333', borderRadius: '8px' }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#e8e8e8'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#f5f5f5'}
           >
             Create Account
           </Link>
         </div>
 
         {/* Footer Text */}
-        <p className="text-center text-gray-500 text-sm mt-6">
+        <p className="text-center text-sm mt-6" style={{ color: '#666' }}>
           By signing in, you agree to our Terms and Privacy Policy
         </p>
       </div>
