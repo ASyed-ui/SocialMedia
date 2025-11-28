@@ -5,6 +5,8 @@ import Register from './pages/Register'
 import Feed from './pages/Feed'
 import CreatePost from './pages/CreatePost'
 import EditPost from './pages/EditPost'
+import Profile from './pages/Profile'
+import EditProfile from './pages/EditProfile'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
 import logo from './assets/ConnectSphereLogo.png'
@@ -51,6 +53,15 @@ export default function App() {
                     onMouseLeave={(e) => e.target.style.color = '#333'}
                   >
                     Create
+                  </Link>
+                  <Link 
+                    to={`/profile/${user.id}`}
+                    className="font-medium transition-colors duration-200"
+                    style={{ color: '#333' }}
+                    onMouseEnter={(e) => e.target.style.color = '#666'}
+                    onMouseLeave={(e) => e.target.style.color = '#333'}
+                  >
+                    Profile
                   </Link>
                   <div className="pl-4" style={{ borderLeft: '1px solid #e0e0e0' }}>
                     <span className="text-sm mr-3" style={{ color: '#666' }}>
@@ -107,6 +118,11 @@ export default function App() {
           <Route
             path="/edit/:id"
             element={<ProtectedRoute><EditPost /></ProtectedRoute>}
+          />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route
+            path="/profile/:id/edit"
+            element={<ProtectedRoute><EditProfile /></ProtectedRoute>}
           />
         </Routes>
       </main>
