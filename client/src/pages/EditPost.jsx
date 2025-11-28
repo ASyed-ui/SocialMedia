@@ -9,17 +9,30 @@ export default function EditPost() {
   const [image, setImage] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     const load = async () => {
+      setLoading(true)
+      setError('')
       try {
         const res = await api.get(`/post/${id}`)
-        setContent(res.data.content)
-        setImage(res.data.image || '')
+        if (res.data) {
+          setContent(res.data.content || '')
+          setImage(res.data.image || '')
+        } else {
+          setError('Invalid response from server')
+        }
       } catch (err) {
-        console.error(err)
-        setError('Failed to load post')
+        if (err.response) {
+          setError(err.response.data?.message || 'Failed to load post')
+        } else if (err.request) {
+          setError('Network error. Please check your connection.')
+        } else {
+          setError('An unexpected error occurred. Please try again.')
+        }
+        console.error('Error loading post:', err)
       } finally {
         setLoading(false)
       }
@@ -29,11 +42,27 @@ export default function EditPost() {
 
   const submit = async (e) => {
     e.preventDefault()
+    setError('')
+    setSubmitting(true)
+    
     try {
-      await api.put(`/post/${id}`, { content, image })
-      navigate('/')
+      const res = await api.put(`/post/${id}`, { content, image })
+      if (res.data) {
+        navigate('/')
+      } else {
+        setError('Invalid response from server')
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Update failed')
+      if (err.response) {
+        setError(err.response.data?.message || 'Failed to update post. Please try again.')
+      } else if (err.request) {
+        setError('Network error. Please check your connection.')
+      } else {
+        setError('An unexpected error occurred. Please try again.')
+      }
+      console.error('Error updating post:', err)
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -115,20 +144,22 @@ export default function EditPost() {
             <div className="flex gap-3 pt-4">
               <button 
                 type="submit"
-                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200"
-                style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+                disabled={submitting}
+                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundColor: submitting ? '#999' : '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#555')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#666')}
               >
-                Save Changes
+                {submitting ? 'Saving...' : 'Save Changes'}
               </button>
               <button 
                 type="button"
                 onClick={() => navigate('/')}
-                className="px-6 py-3 font-semibold transition-all duration-200"
+                disabled={submitting}
+                className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ backgroundColor: '#f5f5f5', color: '#333', borderRadius: '8px' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#e8e8e8'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#e8e8e8')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#f5f5f5')}
               >
                 Cancel
               </button>

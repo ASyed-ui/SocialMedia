@@ -7,15 +7,31 @@ export default function CreatePost() {
   const [content, setContent] = useState('')
   const [image, setImage] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const submit = async (e) => {
     e.preventDefault()
+    setError('')
+    setLoading(true)
+    
     try {
-      await api.post('/post', { content, image })
-      navigate('/')
+      const res = await api.post('/post', { content, image })
+      if (res.data) {
+        navigate('/')
+      } else {
+        setError('Invalid response from server')
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Create failed')
+      if (err.response) {
+        setError(err.response.data?.message || 'Failed to create post. Please try again.')
+      } else if (err.request) {
+        setError('Network error. Please check your connection.')
+      } else {
+        setError('An unexpected error occurred. Please try again.')
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -89,20 +105,22 @@ export default function CreatePost() {
             <div className="flex gap-3 pt-4">
               <button 
                 type="submit"
-                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200"
-                style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+                disabled={loading}
+                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundColor: loading ? '#999' : '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#555')}
+                onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#666')}
               >
-                Post
+                {loading ? 'Posting...' : 'Post'}
               </button>
               <button 
                 type="button"
                 onClick={() => navigate('/')}
-                className="px-6 py-3 font-semibold transition-all duration-200"
+                disabled={loading}
+                className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ backgroundColor: '#f5f5f5', color: '#333', borderRadius: '8px' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#e8e8e8'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#e8e8e8')}
+                onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#f5f5f5')}
               >
                 Cancel
               </button>

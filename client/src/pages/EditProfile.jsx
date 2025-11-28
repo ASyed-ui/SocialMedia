@@ -14,6 +14,7 @@ export default function EditProfile() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     // Only allow editing own profile
@@ -23,13 +24,26 @@ export default function EditProfile() {
     }
 
     const loadProfile = async () => {
+      setLoading(true)
+      setError('')
       try {
         const res = await api.get(`/users/${id}`)
-        setName(res.data.name || '')
-        setBio(res.data.bio || '')
-        setProfilePic(res.data.profilePic || '')
+        if (res.data) {
+          setName(res.data.name || '')
+          setBio(res.data.bio || '')
+          setProfilePic(res.data.profilePic || '')
+        } else {
+          setError('Invalid response from server')
+        }
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load profile')
+        if (err.response) {
+          setError(err.response.data?.message || 'Failed to load profile')
+        } else if (err.request) {
+          setError('Network error. Please check your connection.')
+        } else {
+          setError('An unexpected error occurred. Please try again.')
+        }
+        console.error('Error loading profile:', err)
       } finally {
         setLoading(false)
       }
@@ -40,6 +54,7 @@ export default function EditProfile() {
   const submit = async (e) => {
     e.preventDefault()
     setError('')
+    setSubmitting(true)
     
     try {
       const updates = { name, bio, profilePic }
@@ -49,20 +64,33 @@ export default function EditProfile() {
       
       const res = await api.put(`/users/${id}`, updates)
       
-      // Update auth context if updating own profile
-      if (currentUser?.id === id) {
-        const token = localStorage.getItem('token')
-        login(token, { 
-          id: res.data._id || res.data.id, 
-          name: res.data.name, 
-          email: res.data.email, 
-          profilePic: res.data.profilePic 
-        })
+      if (res.data) {
+        // Update auth context if updating own profile
+        if (currentUser?.id === id) {
+          const token = localStorage.getItem('token')
+          login(token, { 
+            id: res.data._id || res.data.id, 
+            name: res.data.name, 
+            email: res.data.email, 
+            profilePic: res.data.profilePic 
+          })
+        }
+        
+        navigate(`/profile/${id}`)
+      } else {
+        setError('Invalid response from server')
       }
-      
-      navigate(`/profile/${id}`)
     } catch (err) {
-      setError(err.response?.data?.message || 'Update failed')
+      if (err.response) {
+        setError(err.response.data?.message || 'Failed to update profile. Please try again.')
+      } else if (err.request) {
+        setError('Network error. Please check your connection.')
+      } else {
+        setError('An unexpected error occurred. Please try again.')
+      }
+      console.error('Error updating profile:', err)
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -177,20 +205,22 @@ export default function EditProfile() {
             <div className="flex gap-3 pt-4">
               <button 
                 type="submit"
-                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200"
-                style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+                disabled={submitting}
+                className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundColor: submitting ? '#999' : '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#555')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#666')}
               >
-                Save Changes
+                {submitting ? 'Saving...' : 'Save Changes'}
               </button>
               <button 
                 type="button"
                 onClick={() => navigate(`/profile/${id}`)}
-                className="px-6 py-3 font-semibold transition-all duration-200"
+                disabled={submitting}
+                className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ backgroundColor: '#f5f5f5', color: '#333', borderRadius: '8px' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#e8e8e8'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#e8e8e8')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#f5f5f5')}
               >
                 Cancel
               </button>

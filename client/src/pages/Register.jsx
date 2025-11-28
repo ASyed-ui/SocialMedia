@@ -9,18 +9,33 @@ export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { login } = useAuth()
   const navigate = useNavigate()
 
   const submit = async (e) => {
     e.preventDefault()
     setError('')
+    setLoading(true)
+    
     try {
       const res = await api.post('/register', { name, email, password })
-      login(res.data.token, res.data.user)
-      navigate('/')
+      if (res.data.token && res.data.user) {
+        login(res.data.token, res.data.user)
+        navigate('/')
+      } else {
+        setError('Invalid response from server')
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Register failed')
+      if (err.response) {
+        setError(err.response.data?.message || 'Registration failed. Please try again.')
+      } else if (err.request) {
+        setError('Network error. Please check your connection.')
+      } else {
+        setError('An unexpected error occurred. Please try again.')
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -99,12 +114,13 @@ export default function Register() {
             {/* Submit Button */}
             <button 
               type="submit"
-              className="w-full px-6 py-3 text-white font-semibold transition-all duration-200 mt-6"
-              style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+              disabled={loading}
+              className="w-full px-6 py-3 text-white font-semibold transition-all duration-200 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ backgroundColor: loading ? '#999' : '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#555')}
+              onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#666')}
             >
-              Create Account
+              {loading ? 'Creating Account...' : 'Create Account'}
             </button>
           </form>
 
