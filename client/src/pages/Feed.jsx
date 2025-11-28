@@ -4,6 +4,7 @@ import api from '../utils/api'
 import PostCard from '../components/PostCard'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function Feed() {
   const [posts, setPosts] = useState([])
@@ -56,15 +57,15 @@ export default function Feed() {
   }
 
   return (
-    <div className="min-h-screen py-8" style={{ backgroundColor: '#fefbf6' }}>
-      <div className="max-w-2xl mx-auto px-4">
+    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#fefbf6' }}>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold" style={{ color: '#333' }}>Feed</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#333' }}>Feed</h1>
           <button 
             onClick={() => navigate('/create')} 
-            className="px-6 py-2.5 text-white font-semibold transition-all duration-200"
-            style={{ backgroundColor: '#666', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+            className="w-full sm:w-auto px-6 py-2.5 text-white font-semibold transition-all duration-200 rounded-lg"
+            style={{ backgroundColor: '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
             onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
             onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
           >
@@ -92,7 +93,7 @@ export default function Feed() {
         {/* Loading State */}
         {loading && (
           <div className="p-12 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-            <div className="text-lg" style={{ color: '#666' }}>Loading posts...</div>
+            <LoadingSpinner size="lg" text="Loading posts..." />
           </div>
         )}
 
