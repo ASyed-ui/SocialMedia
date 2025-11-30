@@ -4,13 +4,16 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import api from '../utils/api'
 import { useAuth } from '../context/AuthContext'
 import LoadingSpinner from '../components/LoadingSpinner'
+import PostCard from '../components/PostCard'
 
 export default function Profile() {
   const { id } = useParams()
   const { user: currentUser } = useAuth()
   const navigate = useNavigate()
   const [profile, setProfile] = useState(null)
+  const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [postsLoading, setPostsLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -39,6 +42,51 @@ export default function Profile() {
     }
     loadProfile()
   }, [id])
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      setPostsLoading(true)
+      try {
+        const res = await api.get('/post')
+        if (res.data && Array.isArray(res.data)) {
+          // Filter posts by this user
+          const userPosts = res.data.filter(p => {
+            const postUserId = p.userId?._id || p.userId
+            return postUserId === id || postUserId?.toString() === id
+          })
+          // Mark ownership
+          const data = userPosts.map(p => ({ 
+            ...p, 
+            isOwner: currentUser && (currentUser.id === id) 
+          }))
+          setPosts(data)
+        }
+      } catch (err) {
+        console.error('Error loading posts:', err)
+        // Don't show error for posts, just log it
+      } finally {
+        setPostsLoading(false)
+      }
+    }
+    if (id) {
+      loadPosts()
+    }
+  }, [id, currentUser])
+
+  const handleDelete = async (postId) => {
+    if (!confirm('Delete this post?')) return
+    try {
+      await api.delete(`/post/${postId}`)
+      setPosts(posts.filter(p => p._id !== postId))
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data?.message || 'Failed to delete post')
+      } else {
+        alert('Network error. Please try again.')
+      }
+      console.error('Error deleting post:', err)
+    }
+  }
 
   const isOwnProfile = currentUser && currentUser.id === id
 
@@ -128,6 +176,34 @@ export default function Profile() {
               >
                 Edit Profile
               </Link>
+            </div>
+          )}
+        </div>
+
+        {/* User's Posts Section */}
+        <div className="mt-8">
+          <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: '#333' }}>
+            {isOwnProfile ? 'My Posts' : `${profile?.name || 'User'}'s Posts`}
+          </h3>
+
+          {postsLoading ? (
+            <div className="p-12 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+              <LoadingSpinner size="lg" text="Loading posts..." />
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="p-12 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+              <div className="text-lg" style={{ color: '#666' }}>
+                {isOwnProfile ? "You haven't posted anything yet" : "No posts yet"}
+              </div>
+              <p className="text-sm mt-2" style={{ color: '#999' }}>
+                {isOwnProfile ? "Create your first post!" : "This user hasn't created any posts"}
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {posts.map(post => (
+                <PostCard key={post._id} post={post} onDelete={handleDelete} />
+              ))}
             </div>
           )}
         </div>

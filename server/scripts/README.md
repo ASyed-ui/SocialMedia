@@ -17,6 +17,7 @@ npm run seed
 ```
 
 Or directly:
+
 ```bash
 node scripts/seed.js
 ```
@@ -42,4 +43,3 @@ All users use the password: `password123`
 ## Note:
 
 The script will **delete all existing users and posts** before seeding. Comment out the deletion lines if you want to keep existing data.
-
