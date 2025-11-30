@@ -65,7 +65,7 @@ export default function Feed() {
           <button 
             onClick={() => navigate('/create')} 
             className="w-full sm:w-auto px-6 py-2.5 text-white font-semibold transition-all duration-200 rounded-lg"
-            style={{ backgroundColor: '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+            style={{ backgroundColor: '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', cursor: 'pointer' }}
             onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
             onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
           >

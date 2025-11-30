@@ -165,7 +165,8 @@ export default function Login() {
               className="w-full px-6 py-3 text-white font-semibold transition-all duration-200 mt-6 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
               style={{ 
                 backgroundColor: loading ? '#999' : '#666', 
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                cursor: loading ? 'not-allowed' : 'pointer'
               }}
               onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#555')}
               onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#666')}
