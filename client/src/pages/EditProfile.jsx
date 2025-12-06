@@ -97,19 +97,19 @@ export default function EditProfile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-12" style={{ backgroundColor: '#fefbf6' }}>
+      <div className="min-h-screen flex items-center justify-center py-12" style={{ backgroundColor: '#E8F1F8' }}>
         <LoadingSpinner size="lg" text="Loading profile..." />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#fefbf6' }}>
+    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#E8F1F8' }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#333' }}>Edit Profile</h2>
-          <p className="mt-2 text-sm sm:text-base" style={{ color: '#666' }}>Update your profile information</p>
+          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#2B3A67' }}>Edit Profile</h2>
+          <p className="mt-2 text-sm sm:text-base" style={{ color: '#2B3A67', opacity: 0.7 }}>Update your profile information</p>
         </div>
 
         {/* Error Message */}
@@ -120,11 +120,11 @@ export default function EditProfile() {
         )}
 
         {/* Form */}
-        <div className="p-6" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+        <div className="p-6" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(43, 58, 103, 0.15)' }}>
           <form onSubmit={submit} className="space-y-4">
             {/* Profile Picture */}
             <div>
-              <label htmlFor="profilePic" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
+              <label htmlFor="profilePic" className="block text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>
                 Profile Picture URL
               </label>
               <input
@@ -134,20 +134,20 @@ export default function EditProfile() {
                 onChange={e => setProfilePic(e.target.value)}
                 placeholder="https://example.com/profile.jpg"
                 className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
-                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                style={{ border: '1px solid #A7C7E7', color: '#2B3A67', outline: 'none' }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#666'
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                  e.target.style.borderColor = '#2B3A67'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(43, 58, 103, 0.1)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.borderColor = '#A7C7E7'
                   e.target.style.boxShadow = 'none'
                 }}
               />
               {profilePic && (
                 <div className="mt-3">
-                  <p className="text-sm font-medium mb-2" style={{ color: '#333' }}>Preview:</p>
-                  <div className="w-24 h-24 rounded-full overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#f5f5f5', border: '2px solid #e0e0e0' }}>
+                  <p className="text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>Preview:</p>
+                  <div className="w-24 h-24 rounded-full overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#E8F1F8', border: '2px solid #A7C7E7' }}>
                     <img 
                       src={profilePic} 
                       alt="Profile preview"
@@ -161,7 +161,7 @@ export default function EditProfile() {
 
             {/* Name Input */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
+              <label htmlFor="name" className="block text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>
                 Name
               </label>
               <input
@@ -171,13 +171,13 @@ export default function EditProfile() {
                 onChange={e => setName(e.target.value)}
                 placeholder="Your name"
                 className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
-                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                style={{ border: '1px solid #A7C7E7', color: '#2B3A67', outline: 'none' }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#666'
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                  e.target.style.borderColor = '#2B3A67'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(43, 58, 103, 0.1)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.borderColor = '#A7C7E7'
                   e.target.style.boxShadow = 'none'
                 }}
                 required
@@ -186,7 +186,7 @@ export default function EditProfile() {
 
             {/* Bio Textarea */}
             <div>
-              <label htmlFor="bio" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
+              <label htmlFor="bio" className="block text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>
                 Bio
               </label>
               <textarea
@@ -195,13 +195,13 @@ export default function EditProfile() {
                 onChange={e => setBio(e.target.value)}
                 placeholder="Tell us about yourself..."
                 className="w-full px-4 py-3 resize-none transition-all duration-200 rounded-lg"
-                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                style={{ border: '1px solid #A7C7E7', color: '#2B3A67', outline: 'none' }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#666'
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                  e.target.style.borderColor = '#2B3A67'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(43, 58, 103, 0.1)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.borderColor = '#A7C7E7'
                   e.target.style.boxShadow = 'none'
                 }}
                 rows={4}
@@ -210,7 +210,7 @@ export default function EditProfile() {
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
+              <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>
                 New Password (optional)
               </label>
               <input
@@ -220,18 +220,18 @@ export default function EditProfile() {
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Leave blank to keep current password"
                 className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
-                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                style={{ border: '1px solid #A7C7E7', color: '#2B3A67', outline: 'none' }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#666'
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                  e.target.style.borderColor = '#2B3A67'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(43, 58, 103, 0.1)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.borderColor = '#A7C7E7'
                   e.target.style.boxShadow = 'none'
                 }}
                 minLength={6}
               />
-              <p className="text-xs mt-1" style={{ color: '#666' }}>Must be at least 6 characters if provided</p>
+              <p className="text-xs mt-1" style={{ color: '#2B3A67', opacity: 0.7 }}>Must be at least 6 characters if provided</p>
             </div>
 
             {/* Buttons */}
@@ -240,9 +240,9 @@ export default function EditProfile() {
                 type="submit"
                 disabled={submitting}
                 className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
-                style={{ backgroundColor: submitting ? '#999' : '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#555')}
-                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#666')}
+                style={{ backgroundColor: submitting ? '#A7C7E7' : '#2B3A67', boxShadow: '0 2px 4px rgba(43, 58, 103, 0.2)' }}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#1F2B4D')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#2B3A67')}
               >
                 {submitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -258,9 +258,9 @@ export default function EditProfile() {
                 onClick={() => navigate(`/profile/${id}`)}
                 disabled={submitting}
                 className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
-                style={{ backgroundColor: '#f5f5f5', color: '#333' }}
-                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#e8e8e8')}
-                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#f5f5f5')}
+                style={{ backgroundColor: '#A7C7E7', color: '#2B3A67' }}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#8FB5D9')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#A7C7E7')}
               >
                 Cancel
               </button>
@@ -271,4 +271,3 @@ export default function EditProfile() {
     </div>
   )
 }
-

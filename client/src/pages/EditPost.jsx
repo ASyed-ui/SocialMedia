@@ -69,19 +69,19 @@ export default function EditPost() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-12" style={{ backgroundColor: '#fefbf6' }}>
+      <div className="min-h-screen flex items-center justify-center py-12" style={{ backgroundColor: '#E8F1F8' }}>
         <LoadingSpinner size="lg" text="Loading post..." />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#fefbf6' }}>
+    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#E8F1F8' }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#333' }}>Edit Post</h2>
-          <p className="mt-2 text-sm sm:text-base" style={{ color: '#666' }}>Update your post content</p>
+          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#2B3A67' }}>Edit Post</h2>
+          <p className="mt-2 text-sm sm:text-base" style={{ color: '#2B3A67', opacity: 0.7 }}>Update your post content</p>
         </div>
 
         {/* Error Message */}
@@ -92,11 +92,11 @@ export default function EditPost() {
         )}
 
         {/* Form */}
-        <div className="p-6" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+        <div className="p-6" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(43, 58, 103, 0.15)' }}>
           <form onSubmit={submit} className="space-y-4">
             {/* Content Textarea */}
             <div>
-              <label htmlFor="content" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
+              <label htmlFor="content" className="block text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>
                 Content
               </label>
               <textarea
@@ -105,13 +105,13 @@ export default function EditPost() {
                 onChange={e => setContent(e.target.value)}
                 placeholder="What's on your mind?"
                 className="w-full px-4 py-3 resize-none transition-all duration-200 rounded-lg"
-                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                style={{ border: '1px solid #A7C7E7', color: '#2B3A67', outline: 'none' }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#666'
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                  e.target.style.borderColor = '#2B3A67'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(43, 58, 103, 0.1)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.borderColor = '#A7C7E7'
                   e.target.style.boxShadow = 'none'
                 }}
                 rows={6}
@@ -121,7 +121,7 @@ export default function EditPost() {
 
             {/* Image URL Input */}
             <div>
-              <label htmlFor="image" className="block text-sm font-medium mb-2" style={{ color: '#333' }}>
+              <label htmlFor="image" className="block text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>
                 Image URL (optional)
               </label>
               <input
@@ -131,13 +131,13 @@ export default function EditPost() {
                 onChange={e => setImage(e.target.value)}
                 placeholder="https://example.com/image.jpg"
                 className="w-full px-4 py-3 transition-all duration-200 rounded-lg"
-                style={{ border: '1px solid #e0e0e0', color: '#333', outline: 'none' }}
+                style={{ border: '1px solid #A7C7E7', color: '#2B3A67', outline: 'none' }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#666'
-                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 102, 102, 0.1)'
+                  e.target.style.borderColor = '#2B3A67'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(43, 58, 103, 0.1)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = '#e0e0e0'
+                  e.target.style.borderColor = '#A7C7E7'
                   e.target.style.boxShadow = 'none'
                 }}
               />
@@ -146,12 +146,12 @@ export default function EditPost() {
             {/* Image Preview */}
             {image && (
               <div className="mt-4">
-                <p className="text-sm font-medium mb-2" style={{ color: '#333' }}>Image Preview:</p>
+                <p className="text-sm font-medium mb-2" style={{ color: '#2B3A67' }}>Image Preview:</p>
                 <img 
                   src={image} 
                   alt="Preview" 
                   className="w-full max-h-64 object-cover"
-                  style={{ borderRadius: '8px', border: '1px solid #e0e0e0' }}
+                  style={{ borderRadius: '8px', border: '1px solid #A7C7E7' }}
                   onError={(e) => e.target.style.display = 'none'}
                 />
               </div>
@@ -163,9 +163,9 @@ export default function EditPost() {
                 type="submit"
                 disabled={submitting}
                 className="flex-1 px-6 py-3 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
-                style={{ backgroundColor: submitting ? '#999' : '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#555')}
-                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#666')}
+                style={{ backgroundColor: submitting ? '#A7C7E7' : '#2B3A67', boxShadow: '0 2px 4px rgba(43, 58, 103, 0.2)' }}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#1F2B4D')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#2B3A67')}
               >
                 {submitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -181,9 +181,9 @@ export default function EditPost() {
                 onClick={() => navigate('/')}
                 disabled={submitting}
                 className="px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
-                style={{ backgroundColor: '#f5f5f5', color: '#333' }}
-                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#e8e8e8')}
-                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#f5f5f5')}
+                style={{ backgroundColor: '#A7C7E7', color: '#2B3A67' }}
+                onMouseEnter={(e) => !submitting && (e.target.style.backgroundColor = '#8FB5D9')}
+                onMouseLeave={(e) => !submitting && (e.target.style.backgroundColor = '#A7C7E7')}
               >
                 Cancel
               </button>

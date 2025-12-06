@@ -57,17 +57,17 @@ export default function Feed() {
   }
 
   return (
-    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#fefbf6' }}>
+    <div className="min-h-screen py-6 sm:py-8" style={{ backgroundColor: '#E8F1F8' }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#333' }}>Feed</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{ color: '#2B3A67' }}>Feed</h1>
           <button 
             onClick={() => navigate('/create')} 
             className="w-full sm:w-auto px-6 py-2.5 text-white font-semibold transition-all duration-200 rounded-lg"
-            style={{ backgroundColor: '#666', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', cursor: 'pointer' }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+            style={{ backgroundColor: '#2B3A67', boxShadow: '0 2px 4px rgba(43, 58, 103, 0.2)', cursor: 'pointer' }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#1F2B4D'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#2B3A67'}
           >
             Create Post
           </button>
@@ -92,7 +92,7 @@ export default function Feed() {
 
         {/* Loading State */}
         {loading && (
-          <div className="p-12 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+          <div className="p-12 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(43, 58, 103, 0.15)' }}>
             <LoadingSpinner size="lg" text="Loading posts..." />
           </div>
         )}
@@ -100,9 +100,9 @@ export default function Feed() {
         {/* Posts List */}
         {!loading && !error && (
           posts.length === 0 ? (
-            <div className="p-12 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-              <div className="text-lg" style={{ color: '#666' }}>No posts yet</div>
-              <p className="text-sm mt-2" style={{ color: '#999' }}>Be the first to create a post!</p>
+            <div className="p-12 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(43, 58, 103, 0.15)' }}>
+              <div className="text-lg" style={{ color: '#2B3A67' }}>No posts yet</div>
+              <p className="text-sm mt-2" style={{ color: '#A7C7E7' }}>Be the first to create a post!</p>
             </div>
           ) : (
             <div className="space-y-4">

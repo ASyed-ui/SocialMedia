@@ -55,13 +55,13 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#fefbf6" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#E8F1F8" }}>
       {/* Navigation Bar */}
       <nav
         className="sticky top-0 z-50"
         style={{
           backgroundColor: "#ffffff",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          boxShadow: "0 2px 8px rgba(43, 58, 103, 0.15)",
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,7 +78,7 @@ export default function App() {
               />
               <span
                 className="text-xl sm:text-2xl font-bold"
-                style={{ color: "#333" }}
+                style={{ color: "#2B3A67" }}
               >
                 ConnectSphere
               </span>
@@ -91,27 +91,27 @@ export default function App() {
                   <Link
                     to="/"
                     className="font-medium transition-colors duration-200"
-                    style={{ color: "#333" }}
-                    onMouseEnter={(e) => (e.target.style.color = "#666")}
-                    onMouseLeave={(e) => (e.target.style.color = "#333")}
+                    style={{ color: "#2B3A67" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#1F2B4D")}
+                    onMouseLeave={(e) => (e.target.style.color = "#2B3A67")}
                   >
                     Feed
                   </Link>
                   <Link
                     to="/create"
                     className="font-medium transition-colors duration-200"
-                    style={{ color: "#333" }}
-                    onMouseEnter={(e) => (e.target.style.color = "#666")}
-                    onMouseLeave={(e) => (e.target.style.color = "#333")}
+                    style={{ color: "#2B3A67" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#1F2B4D")}
+                    onMouseLeave={(e) => (e.target.style.color = "#2B3A67")}
                   >
                     Create
                   </Link>
                   <Link
                     to={`/profile/${user.id}`}
                     className="font-medium transition-colors duration-200"
-                    style={{ color: "#333" }}
-                    onMouseEnter={(e) => (e.target.style.color = "#666")}
-                    onMouseLeave={(e) => (e.target.style.color = "#333")}
+                    style={{ color: "#2B3A67" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#1F2B4D")}
+                    onMouseLeave={(e) => (e.target.style.color = "#2B3A67")}
                   >
                     Profile
                   </Link>
@@ -125,8 +125,8 @@ export default function App() {
                       <div
                         className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
                         style={{
-                          backgroundColor: "#f5f5f5",
-                          border: "2px solid #e0e0e0",
+                          backgroundColor: "#E8F1F8",
+                          border: "2px solid #A7C7E7",
                         }}
                       >
                         {user.profilePic ? (
@@ -138,7 +138,7 @@ export default function App() {
                         ) : (
                           <span
                             className="text-lg font-bold"
-                            style={{ color: "#666" }}
+                            style={{ color: "#2B3A67" }}
                           >
                             {user.name?.charAt(0)?.toUpperCase() || "U"}
                           </span>
@@ -148,7 +148,7 @@ export default function App() {
                         className={`w-4 h-4 transition-transform duration-200 ${
                           userMenuOpen ? "transform rotate-180" : ""
                         }`}
-                        style={{ color: "#666" }}
+                        style={{ color: "#2B3A67" }}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -168,21 +168,21 @@ export default function App() {
                         className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg py-1"
                         style={{
                           backgroundColor: "#ffffff",
-                          border: "1px solid #e0e0e0",
-                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                          border: "1px solid #A7C7E7",
+                          boxShadow: "0 4px 12px rgba(43, 58, 103, 0.2)",
                         }}
                       >
                         <div
                           className="px-4 py-3 border-b"
-                          style={{ borderColor: "#e0e0e0" }}
+                          style={{ borderColor: "#A7C7E7" }}
                         >
                           <p
                             className="text-sm font-semibold"
-                            style={{ color: "#333" }}
+                            style={{ color: "#2B3A67" }}
                           >
                             {user.name}
                           </p>
-                          <p className="text-xs" style={{ color: "#666" }}>
+                          <p className="text-xs" style={{ color: "#2B3A67", opacity: 0.7 }}>
                             {user.email}
                           </p>
                         </div>
@@ -190,9 +190,9 @@ export default function App() {
                           to={`/profile/${user.id}`}
                           onClick={() => setUserMenuOpen(false)}
                           className="block px-4 py-2 text-sm transition-colors duration-200"
-                          style={{ color: "#333" }}
+                          style={{ color: "#2B3A67" }}
                           onMouseEnter={(e) =>
-                            (e.target.style.backgroundColor = "#f5f5f5")
+                            (e.target.style.backgroundColor = "#E8F1F8")
                           }
                           onMouseLeave={(e) =>
                             (e.target.style.backgroundColor = "transparent")
@@ -204,9 +204,9 @@ export default function App() {
                           to={`/profile/${user.id}/edit`}
                           onClick={() => setUserMenuOpen(false)}
                           className="block px-4 py-2 text-sm transition-colors duration-200"
-                          style={{ color: "#333" }}
+                          style={{ color: "#2B3A67" }}
                           onMouseEnter={(e) =>
-                            (e.target.style.backgroundColor = "#f5f5f5")
+                            (e.target.style.backgroundColor = "#E8F1F8")
                           }
                           onMouseLeave={(e) =>
                             (e.target.style.backgroundColor = "transparent")
@@ -236,21 +236,21 @@ export default function App() {
                   <Link
                     to="/login"
                     className="font-medium transition-colors duration-200"
-                    style={{ color: "#333" }}
-                    onMouseEnter={(e) => (e.target.style.color = "#666")}
-                    onMouseLeave={(e) => (e.target.style.color = "#333")}
+                    style={{ color: "#2B3A67" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#1F2B4D")}
+                    onMouseLeave={(e) => (e.target.style.color = "#2B3A67")}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
                     className="px-4 py-2 text-white font-medium transition-colors duration-200"
-                    style={{ backgroundColor: "#666", borderRadius: "8px" }}
+                    style={{ backgroundColor: "#2B3A67", borderRadius: "8px" }}
                     onMouseEnter={(e) =>
-                      (e.target.style.backgroundColor = "#555")
+                      (e.target.style.backgroundColor = "#1F2B4D")
                     }
                     onMouseLeave={(e) =>
-                      (e.target.style.backgroundColor = "#666")
+                      (e.target.style.backgroundColor = "#2B3A67")
                     }
                   >
                     Register
@@ -275,8 +275,8 @@ export default function App() {
                     <div
                       className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden cursor-pointer transition-transform duration-200 hover:scale-105"
                       style={{
-                        backgroundColor: "#f5f5f5",
-                        border: "2px solid #e0e0e0",
+                        backgroundColor: "#E8F1F8",
+                        border: "2px solid #A7C7E7",
                       }}
                     >
                       {user.profilePic ? (
@@ -288,7 +288,7 @@ export default function App() {
                       ) : (
                         <span
                           className="text-lg font-bold"
-                          style={{ color: "#666" }}
+                          style={{ color: "#2B3A67" }}
                         >
                           {user.name?.charAt(0)?.toUpperCase() || "U"}
                         </span>
@@ -302,22 +302,22 @@ export default function App() {
                       className="absolute right-0 mt-2 w-56 rounded-lg shadow-lg py-1 z-50"
                       style={{
                         backgroundColor: "#ffffff",
-                        border: "1px solid #e0e0e0",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                        border: "1px solid #A7C7E7",
+                        boxShadow: "0 4px 12px rgba(43, 58, 103, 0.2)",
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
                       <div
                         className="px-4 py-3 border-b"
-                        style={{ borderColor: "#e0e0e0" }}
+                        style={{ borderColor: "#A7C7E7" }}
                       >
                         <p
                           className="text-sm font-semibold"
-                          style={{ color: "#333" }}
+                          style={{ color: "#2B3A67" }}
                         >
                           {user.name}
                         </p>
-                        <p className="text-xs" style={{ color: "#666" }}>
+                        <p className="text-xs" style={{ color: "#2B3A67", opacity: 0.7 }}>
                           {user.email}
                         </p>
                       </div>
@@ -325,9 +325,9 @@ export default function App() {
                         to="/"
                         onClick={handleMobileLinkClick}
                         className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
-                        style={{ color: "#333" }}
+                        style={{ color: "#2B3A67" }}
                         onMouseEnter={(e) =>
-                          (e.target.style.backgroundColor = "#f5f5f5")
+                          (e.target.style.backgroundColor = "#E8F1F8")
                         }
                         onMouseLeave={(e) =>
                           (e.target.style.backgroundColor = "transparent")
@@ -339,9 +339,9 @@ export default function App() {
                         to="/create"
                         onClick={handleMobileLinkClick}
                         className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
-                        style={{ color: "#333" }}
+                        style={{ color: "#2B3A67" }}
                         onMouseEnter={(e) =>
-                          (e.target.style.backgroundColor = "#f5f5f5")
+                          (e.target.style.backgroundColor = "#E8F1F8")
                         }
                         onMouseLeave={(e) =>
                           (e.target.style.backgroundColor = "transparent")
@@ -353,9 +353,9 @@ export default function App() {
                         to={`/profile/${user.id}`}
                         onClick={handleMobileLinkClick}
                         className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
-                        style={{ color: "#333" }}
+                        style={{ color: "#2B3A67" }}
                         onMouseEnter={(e) =>
-                          (e.target.style.backgroundColor = "#f5f5f5")
+                          (e.target.style.backgroundColor = "#E8F1F8")
                         }
                         onMouseLeave={(e) =>
                           (e.target.style.backgroundColor = "transparent")
@@ -367,9 +367,9 @@ export default function App() {
                         to={`/profile/${user.id}/edit`}
                         onClick={handleMobileLinkClick}
                         className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
-                        style={{ color: "#333" }}
+                        style={{ color: "#2B3A67" }}
                         onMouseEnter={(e) =>
-                          (e.target.style.backgroundColor = "#f5f5f5")
+                          (e.target.style.backgroundColor = "#E8F1F8")
                         }
                         onMouseLeave={(e) =>
                           (e.target.style.backgroundColor = "transparent")
@@ -403,21 +403,21 @@ export default function App() {
                   <Link
                     to="/login"
                     className="px-3 py-2 text-sm font-medium transition-colors duration-200"
-                    style={{ color: "#333" }}
-                    onMouseEnter={(e) => (e.target.style.color = "#666")}
-                    onMouseLeave={(e) => (e.target.style.color = "#333")}
+                    style={{ color: "#2B3A67" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#1F2B4D")}
+                    onMouseLeave={(e) => (e.target.style.color = "#2B3A67")}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
                     className="px-3 py-2 text-sm text-white font-medium transition-colors duration-200"
-                    style={{ backgroundColor: "#666", borderRadius: "8px" }}
+                    style={{ backgroundColor: "#2B3A67", borderRadius: "8px" }}
                     onMouseEnter={(e) =>
-                      (e.target.style.backgroundColor = "#555")
+                      (e.target.style.backgroundColor = "#1F2B4D")
                     }
                     onMouseLeave={(e) =>
-                      (e.target.style.backgroundColor = "#666")
+                      (e.target.style.backgroundColor = "#2B3A67")
                     }
                   >
                     Register
@@ -434,7 +434,7 @@ export default function App() {
                     setMobileUserMenuOpen(false);
                   }}
                   className="p-2 focus:outline-none transition-colors duration-200"
-                  style={{ color: "#333" }}
+                  style={{ color: "#2B3A67" }}
                   aria-label="Menu"
                 >
                   <svg
@@ -468,16 +468,16 @@ export default function App() {
           {mobileMenuOpen && user && (
             <div
               className="md:hidden border-t py-2"
-              style={{ borderColor: "#e0e0e0" }}
+              style={{ borderColor: "#A7C7E7" }}
               onClick={(e) => e.stopPropagation()}
             >
               <Link
                 to="/"
                 onClick={handleMobileLinkClick}
                 className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
-                style={{ color: "#333" }}
+                style={{ color: "#2B3A67" }}
                 onMouseEnter={(e) =>
-                  (e.target.style.backgroundColor = "#f5f5f5")
+                  (e.target.style.backgroundColor = "#E8F1F8")
                 }
                 onMouseLeave={(e) =>
                   (e.target.style.backgroundColor = "transparent")
@@ -489,9 +489,9 @@ export default function App() {
                 to="/create"
                 onClick={handleMobileLinkClick}
                 className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
-                style={{ color: "#333" }}
+                style={{ color: "#2B3A67" }}
                 onMouseEnter={(e) =>
-                  (e.target.style.backgroundColor = "#f5f5f5")
+                  (e.target.style.backgroundColor = "#E8F1F8")
                 }
                 onMouseLeave={(e) =>
                   (e.target.style.backgroundColor = "transparent")
@@ -503,9 +503,9 @@ export default function App() {
                 to={`/profile/${user.id}`}
                 onClick={handleMobileLinkClick}
                 className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
-                style={{ color: "#333" }}
+                style={{ color: "#2B3A67" }}
                 onMouseEnter={(e) =>
-                  (e.target.style.backgroundColor = "#f5f5f5")
+                  (e.target.style.backgroundColor = "#E8F1F8")
                 }
                 onMouseLeave={(e) =>
                   (e.target.style.backgroundColor = "transparent")

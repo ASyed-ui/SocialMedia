@@ -76,20 +76,20 @@ export default function PostCard({ post, onDelete }) {
   };
 
   return (
-    <div className="p-6 mb-4 transition-shadow duration-200" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+    <div className="p-6 mb-4 transition-shadow duration-200" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(43, 58, 103, 0.15)' }}>
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div>
           <Link
             to={`/profile/${post.userId?._id || post.userId}`}
             className="font-semibold text-lg transition-colors duration-200 hover:underline inline-block"
-            style={{ color: '#333' }}
-            onMouseEnter={(e) => e.target.style.color = '#666'}
-            onMouseLeave={(e) => e.target.style.color = '#333'}
+            style={{ color: '#2B3A67' }}
+            onMouseEnter={(e) => e.target.style.color = '#1F2B4D'}
+            onMouseLeave={(e) => e.target.style.color = '#2B3A67'}
           >
             {post.userId?.name || 'Unknown'}
           </Link>
-          <div className="text-sm mt-1" style={{ color: '#666' }}>
+          <div className="text-sm mt-1" style={{ color: '#2B3A67', opacity: 0.7 }}>
             {new Date(post.createdAt).toLocaleString()}
           </div>
         </div>
@@ -100,9 +100,9 @@ export default function PostCard({ post, onDelete }) {
             <Link 
               to={`/edit/${post._id}`} 
               className="px-3 py-1 text-sm text-white transition-colors duration-200"
-              style={{ backgroundColor: '#666', borderRadius: '8px' }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#555'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+              style={{ backgroundColor: '#2B3A67', borderRadius: '8px' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#1F2B4D'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#2B3A67'}
             >
               Edit
             </Link>
@@ -120,7 +120,7 @@ export default function PostCard({ post, onDelete }) {
       </div>
 
       {/* Content */}
-      <div className="mb-4 whitespace-pre-wrap break-words" style={{ color: '#333' }}>
+      <div className="mb-4 whitespace-pre-wrap break-words" style={{ color: '#2B3A67' }}>
         {post.content}
       </div>
 
@@ -135,25 +135,26 @@ export default function PostCard({ post, onDelete }) {
       )}
 
       {/* Footer - Like/Dislike */}
-      <div className="flex gap-4 pt-4" style={{ borderTop: '1px solid #e0e0e0' }}>
+      <div className="flex gap-4 pt-4" style={{ borderTop: '1px solid #A7C7E7' }}>
         <button 
           onClick={handleLike} 
           className={`flex items-center gap-2 px-4 py-2 transition-all duration-200 ${
             (processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''
           }`}
           style={{ 
-            backgroundColor: liked ? '#e3f2fd' : '#f5f5f5', 
-            color: liked ? '#1976d2' : '#666',
-            borderRadius: '8px'
+            backgroundColor: liked ? '#D6E9F7' : '#E8F1F8', 
+            color: liked ? '#2B3A67' : '#2B3A67',
+            borderRadius: '8px',
+            border: liked ? '1px solid #A7C7E7' : '1px solid transparent'
           }}
           onMouseEnter={(e) => {
             if (!processingLike && !processingDislike && !liked) {
-              e.target.style.backgroundColor = '#e8e8e8';
+              e.target.style.backgroundColor = '#D6E9F7';
             }
           }}
           onMouseLeave={(e) => {
             if (!liked) {
-              e.target.style.backgroundColor = '#f5f5f5';
+              e.target.style.backgroundColor = '#E8F1F8';
             }
           }}
           disabled={processingLike || processingDislike}
@@ -174,18 +175,19 @@ export default function PostCard({ post, onDelete }) {
             (processingLike || processingDislike) ? 'opacity-50 cursor-not-allowed' : ''
           }`}
           style={{ 
-            backgroundColor: disliked ? '#ffebee' : '#f5f5f5', 
-            color: disliked ? '#d32f2f' : '#666',
-            borderRadius: '8px'
+            backgroundColor: disliked ? '#ffebee' : '#E8F1F8', 
+            color: disliked ? '#d32f2f' : '#2B3A67',
+            borderRadius: '8px',
+            border: disliked ? '1px solid #d32f2f' : '1px solid transparent'
           }}
           onMouseEnter={(e) => {
             if (!processingLike && !processingDislike && !disliked) {
-              e.target.style.backgroundColor = '#e8e8e8';
+              e.target.style.backgroundColor = '#D6E9F7';
             }
           }}
           onMouseLeave={(e) => {
             if (!disliked) {
-              e.target.style.backgroundColor = '#f5f5f5';
+              e.target.style.backgroundColor = '#E8F1F8';
             }
           }}
           disabled={processingLike || processingDislike}
