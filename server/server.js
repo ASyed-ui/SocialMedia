@@ -13,7 +13,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173", // Local dev
   "https://social-media-qrhn-git-main-aadil-syeds-projects.vercel.app", // Vercel frontend
-  "https://social-media-qrhn.vercel.app/"
+  "https://social-media-qrhn.vercel.app"
 ];
 
 // CORS middleware
