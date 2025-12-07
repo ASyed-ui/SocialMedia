@@ -1,4 +1,4 @@
-// server.js
+// server/server.js
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -32,7 +32,7 @@ app.use(cors({
 }));
 
 // Handle preflight requests manually (optional)
-app.options("*", cors());
+// app.options("*", cors());
 
 // Body parser
 app.use(express.json());
