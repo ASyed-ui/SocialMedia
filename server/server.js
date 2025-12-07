@@ -6,51 +6,56 @@ import authRoutes from "./routes/auth.routes.js";
 import postRoute from "./routes/post.route.js";
 import { connectDB } from "./config/db.js";
 
-
 dotenv.config();
 const app = express();
 
-// Manual CORS middleware as fallback
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  res.header('Access-Control-Allow-Credentials', 'true');
+// Allowed origins for CORS
+const allowedOrigins = [
+  "http://localhost:5173", // Local dev
+  "https://social-media-qrhn-git-main-aadil-syeds-projects.vercel.app" // Vercel frontend
+];
 
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204);
-  }
-  next();
-});
-
-// CORS configuration using cors package
+// CORS middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: function(origin, callback) {
+    // allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true
 }));
 
+// Handle preflight requests manually (optional)
+app.options("*", cors());
+
+// Body parser
 app.use(express.json());
 
+// Environment variables
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://comp229_useradmin:7qPyLAPFtLEQBoy2@connectsphere.tqqdn3s.mongodb.net/?appName=ConnectSphere";
 
-// Connect DB
+// Connect to MongoDB
 connectDB(MONGO_URI);
 
 // Routes
 app.use("/api", authRoutes);
 app.use("/api", postRoute);
 
-// Basic health route
+// Health check
 app.get("/", (req, res) => res.send("Socialmedia API running"));
 
-// Error handler fallback
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: "Server error." });
+  res.status(500).json({ message: err.message || "Server error." });
 });
 
+// Start server
 app.listen(PORT, () => console.log(`✅ Server listening on port ${PORT}`));
