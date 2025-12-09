@@ -524,6 +524,20 @@ export default function App() {
                 Create
               </Link>
               <Link
+                to="/search"
+                onClick={handleMobileLinkClick}
+                className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
+                style={{ color: "#2B3A67" }}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#E8F1F8")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Search
+              </Link>
+              <Link
                 to={`/profile/${user.id}`}
                 onClick={handleMobileLinkClick}
                 className="block px-4 py-3 font-medium transition-colors duration-200 cursor-pointer"
