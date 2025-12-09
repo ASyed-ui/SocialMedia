@@ -7,6 +7,7 @@ import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
+import Search from "./pages/Search";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import logo from "./assets/ConnectSphereLogo.png";
@@ -105,6 +106,15 @@ export default function App() {
                     onMouseLeave={(e) => (e.target.style.color = "#2B3A67")}
                   >
                     Create
+                  </Link>
+                  <Link
+                    to="/search"
+                    className="font-medium transition-colors duration-200"
+                    style={{ color: "#2B3A67" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#1F2B4D")}
+                    onMouseLeave={(e) => (e.target.style.color = "#2B3A67")}
+                  >
+                    Search
                   </Link>
                   <Link
                     to={`/profile/${user.id}`}
@@ -350,6 +360,20 @@ export default function App() {
                         Create
                       </Link>
                       <Link
+                        to="/search"
+                        onClick={handleMobileLinkClick}
+                        className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
+                        style={{ color: "#2B3A67" }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#E8F1F8")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                      >
+                        Search
+                      </Link>
+                      <Link
                         to={`/profile/${user.id}`}
                         onClick={handleMobileLinkClick}
                         className="block px-4 py-2 text-sm transition-colors duration-200 cursor-pointer"
@@ -549,6 +573,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </main>
     </div>
