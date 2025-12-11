@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import postRoute from "./routes/post.route.js";
+import searchRoute from "./routes/search.route.js";
 import { connectDB } from "./config/db.js";
 
 dotenv.config();
@@ -18,7 +19,7 @@ const allowedOrigins = [
 
 // CORS middleware
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     // allow requests with no origin (like Postman)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
@@ -39,8 +40,8 @@ app.use(cors({
 app.use(express.json());
 
 // Environment variables
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://comp229_useradmin:7qPyLAPFtLEQBoy2@connectsphere.tqqdn3s.mongodb.net/?appName=ConnectSphere";
+const PORT = process.env.PORT || 5001;
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://comp229_useradmin:7qPyLAPFtLEQBoy2@connectsphere.tqqdn3s.mongodb.net/socialmedia?appName=ConnectSphere";
 
 // Connect to MongoDB
 connectDB(MONGO_URI);
@@ -48,6 +49,7 @@ connectDB(MONGO_URI);
 // Routes
 app.use("/api", authRoutes);
 app.use("/api", postRoute);
+app.use("/api", searchRoute);
 
 // Health check
 app.get("/", (req, res) => res.send("Socialmedia API running"));
